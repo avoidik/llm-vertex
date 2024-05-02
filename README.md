@@ -14,7 +14,9 @@ Supported models:
 
 ## Installation
 
-TBD
+``` shell
+pip install llm-vertex
+```
 
 ## Use
 
