@@ -1,6 +1,6 @@
 [project]
 name = "llm-vertex"
-version = "0.2.0"
+version = "0.2.1"
 description = "Plugin for LLM adding support for Google Cloud Vertex AI"
 dependencies = [
     "llm",
@@ -21,3 +21,9 @@ Issues = "https://github.com/justyns/llm-vertex/issues"
 
 [project.entry-points.llm]
 vertex = "llm_vertex"
+
+[dependency-groups]
+dev = [
+    "build>=1.2.2.post1",
+    "twine>=6.1.0",
+]
