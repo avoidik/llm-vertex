@@ -8,11 +8,25 @@ For Gemini support using AI Studio, please see [llm-gemini](https://github.com/s
 
 Supported models:
 
-- gemini-1.5-pro-preview-0409
-- gemini-1.0-pro-vision-001
-- gemini-experimental
+- gemini-2.0-pro-exp-02-05
+- gemini-2.0-flash-lite-preview-02-05
+- gemini-2.0-flash-thinking-exp-01-21
+- gemini-1.5-pro
+- gemini-1.5-flash
+- gemini-1.0-pro
+- gemini-1.0-pro-vision
 
 ## Installation
+
+See [Installing Plugins](https://llm.datasette.io/en/stable/plugins/installing-plugins.html) for detailed instructions.
+
+**Method 1: Use llm**
+
+``` shell
+llm install llm-vertex
+```
+
+**Method 2: Use pip**
 
 ``` shell
 pip install llm-vertex
@@ -35,6 +49,6 @@ export VERTEX_PROJECT_ID=gcp-project-id VERTEX_LOCATION=us-east1
 Run llm and specify one of the provided models:
 
 ``` shell
-❯ llm -m gemini-1.5-pro-preview-0409 "What's one clever name for a pet pelican?"
+❯ llm -m vertex-gemini-1.5-pro-preview-0409 "What's one clever name for a pet pelican?"
 "Gulliver" would be a clever name for a pet pelican, referencing both its large gullet and its potential for long journeys! 🦜
 ```
