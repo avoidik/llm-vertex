@@ -25,7 +25,8 @@ def register_models(register):
     # TODO: How to register custom models?
 
 class Vertex(llm.Model):
-    model_id = "gemini-1.0-pro-vision-001"
+    model_id = "vertex-gemini-1.0-pro-vision-001"
+    model_name = "gemini-1.0-pro-vision-001"
     can_stream = True
 
     class Options(llm.Options):
@@ -36,13 +37,15 @@ class Vertex(llm.Model):
 
     def __init__(self, model_id):
         self.model_id = model_id
+        self.model_name = model_id.replace('vertex-', '')
+
         # TODO: Can we save these with llm keys set or something instead?
         project_id = os.getenv('VERTEX_PROJECT_ID')
         location = os.getenv('VERTEX_LOCATION')
         vertexai.init(project=project_id, location=location)
 
     def execute(self, prompt, stream, response, conversation):
-        self.model = GenerativeModel(model_name=self.model_id,
+        self.model = GenerativeModel(model_name=self.model_name,
                                      system_instruction=[prompt.system] if prompt.system else None)
         history = self.build_history(conversation)
         chat = self.model.start_chat(history=history)

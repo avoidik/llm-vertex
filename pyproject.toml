@@ -1,6 +1,6 @@
 [project]
 name = "llm-vertex"
-version = "0.1.1"
+version = "0.2.0"
 description = "Plugin for LLM adding support for Google Cloud Vertex AI"
 dependencies = [
     "llm",
