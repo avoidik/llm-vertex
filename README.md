@@ -70,7 +70,7 @@ source .venv/bin/activate
 Install the package in development mode with test dependencies:
 
 ``` shell
-pip install -e '.[test]'
+pip install -e '.[dev]'
 ```
 
 Run the tests:
