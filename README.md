@@ -57,3 +57,26 @@ Run llm and specify one of the provided models:
 ❯ llm -m vertex-gemini-1.5-pro-preview-0409 "What's one clever name for a pet pelican?"
 "Gulliver" would be a clever name for a pet pelican, referencing both its large gullet and its potential for long journeys! 🦜
 ```
+
+## Development
+
+Create and activate a virtual environment:
+
+``` shell
+python -m venv .venv
+source .venv/bin/activate
+```
+
+Install the package in development mode with test dependencies:
+
+``` shell
+pip install -e '.[test]'
+```
+
+Run the tests:
+
+``` shell
+python -m pytest
+```
+
+The tests use mocking to avoid requiring actual Google Cloud credentials during development, but do not really test actual functionality outside of making sure the plugin is installed and can be used.

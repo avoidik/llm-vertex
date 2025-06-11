@@ -26,4 +26,10 @@ vertex = "llm_vertex"
 dev = [
     "build>=1.2.2.post1",
     "twine>=6.1.0",
+    "pytest>=6.0",
+]
+
+[tool.pytest.ini_options]
+filterwarnings = [
+    "ignore::DeprecationWarning:pydantic.*",
 ]
