@@ -19,15 +19,15 @@ Homepage = "https://github.com/justyns/llm-vertex"
 Changelog = "https://github.com/justyns/llm-vertex/releases"
 Issues = "https://github.com/justyns/llm-vertex/issues"
 
-[project.entry-points.llm]
-vertex = "llm_vertex"
-
-[dependency-groups]
+[project.optional-dependencies]
 dev = [
     "build>=1.2.2.post1",
     "twine>=6.1.0",
     "pytest>=6.0",
 ]
+
+[project.entry-points.llm]
+vertex = "llm_vertex"
 
 [tool.pytest.ini_options]
 filterwarnings = [
