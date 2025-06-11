@@ -8,11 +8,16 @@ For Gemini support using AI Studio, please see [llm-gemini](https://github.com/s
 
 Supported models:
 
-- gemini-2.0-pro-exp-02-05
-- gemini-2.0-flash-lite-preview-02-05
+- gemini-2.5-pro-preview-06-05
+- gemini-2.5-pro-preview-05-06
+- gemini-2.5-pro-exp-03-25
+- gemini-2.5-flash-preview-05-20
+- gemini-2.5-flash-preview-04-17
+- gemini-2.0-flash-001
+- gemini-2.0-flash-lite-001
 - gemini-2.0-flash-thinking-exp-01-21
-- gemini-1.5-pro
 - gemini-1.5-flash
+- gemini-1.5-pro
 - gemini-1.0-pro
 - gemini-1.0-pro-vision
 
@@ -52,3 +57,26 @@ Run llm and specify one of the provided models:
 ❯ llm -m vertex-gemini-1.5-pro-preview-0409 "What's one clever name for a pet pelican?"
 "Gulliver" would be a clever name for a pet pelican, referencing both its large gullet and its potential for long journeys! 🦜
 ```
+
+## Development
+
+Create and activate a virtual environment:
+
+``` shell
+python -m venv .venv
+source .venv/bin/activate
+```
+
+Install the package in development mode with test dependencies:
+
+``` shell
+pip install -e '.[dev]'
+```
+
+Run the tests:
+
+``` shell
+python -m pytest
+```
+
+The tests use mocking to avoid requiring actual Google Cloud credentials during development, but do not really test actual functionality outside of making sure the plugin is installed and can be used.
