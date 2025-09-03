@@ -8,7 +8,7 @@ For Gemini support using AI Studio, please see [llm-gemini](https://github.com/s
 
 Supported models:
 
-- gemini-2.5-flas
+- gemini-2.5-flash
 - gemini-2.5-pro
 - gemini-2.0-flash-lite
 - gemini-2.0-flash
