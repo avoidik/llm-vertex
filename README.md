@@ -21,56 +21,72 @@ See [Installing Plugins](https://llm.datasette.io/en/stable/plugins/installing-p
 
 **Method 1: Use llm**
 
-``` shell
-llm install llm-vertex
+```terminal
+$ llm install llm-vertex-fork
 ```
 
 **Method 2: Use pip**
 
-``` shell
-pip install llm-vertex
+```terminal
+$ pip install llm-vertex-fork
+```
+
+**Method 3: Manual**
+
+```terminal
+$ git clone https://github.com/avoidik/llm-vertex
+$ llm install -e llm-vertex
 ```
 
 ## Use
 
 First, authenticate using `gcloud`:
 
-``` shell
-gcloud auth application-default login
+```terminal
+$ gcloud auth application-default login
 ```
 
 Export two environment variables for the GCP Project and location you want to use:
 
-``` shell
-export VERTEX_PROJECT_ID=gcp-project-id VERTEX_LOCATION=us-east1
+```terminal
+$ export VERTEX_PROJECT_ID=gcp-project-id VERTEX_LOCATION=us-east1
 ```
 
 Run llm and specify one of the provided models:
 
-``` shell
-❯ llm -m vertex-gemini-1.5-pro-preview-0409 "What's one clever name for a pet pelican?"
-"Gulliver" would be a clever name for a pet pelican, referencing both its large gullet and its potential for long journeys! 🦜
+```terminal
+$ llm -m vertex-gemini-2.5-pro "What's one clever name for a pet pelican?"
+
+**Bill Murray.**
+
+It's clever because it's a pun on the pelican's most prominent feature (its **bill**) and evokes the actor's beloved, slightly goofy, and deadpan persona, which fits a pelican perfectly.
+```
+
+Or, in a chat mode:
+
+```terminal
+$ llm chat -m vertex-gemini-2.5-pro
 ```
 
 ## Development
 
 Create and activate a virtual environment:
 
-``` shell
-python -m venv .venv
-source .venv/bin/activate
+```terminal
+$ python -m venv .venv
+$ source .venv/bin/activate
 ```
 
 Install the package in development mode with test dependencies:
 
-``` shell
-pip install -e '.[dev]'
+```terminal
+$ pip install -e '.[dev]'
 ```
 
 Run the tests:
 
-``` shell
-python -m pytest
+```terminal
+$ python -m pytest
 ```
 
 The tests use mocking to avoid requiring actual Google Cloud credentials during development, but do not really test actual functionality outside of making sure the plugin is installed and can be used.
