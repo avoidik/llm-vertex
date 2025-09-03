@@ -1,5 +1,5 @@
 [project]
-name = "llm-vertex"
+name = "llm-vertex-fork"
 version = "0.2.3"
 description = "Plugin for LLM adding support for Google Cloud Vertex AI"
 dependencies = [
@@ -15,9 +15,9 @@ classifiers = [
 requires-python = ">3.8"
 
 [project.urls]
-Homepage = "https://github.com/justyns/llm-vertex"
-Changelog = "https://github.com/justyns/llm-vertex/releases"
-Issues = "https://github.com/justyns/llm-vertex/issues"
+Homepage = "https://github.com/avoidik/llm-vertex-fork"
+Changelog = "https://github.com/avoidik/llm-vertex-fork/releases"
+Issues = "https://github.com/avoidik/llm-vertex-fork/issues"
 
 [project.optional-dependencies]
 dev = [
