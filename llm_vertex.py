@@ -1,9 +1,8 @@
-import llm
-import vertexai
 import os
 from typing import Optional
-# from google.cloud.aiplatform_v1beta1.types import Content, Part
-from vertexai.generative_models import GenerativeModel, Part, ChatSession, Content, GenerationConfig
+import llm
+from google import genai
+from google.genai import types
 
 
 @llm.hookimpl
@@ -17,11 +16,12 @@ def register_models(register):
         'gemini-1.5-pro',
         'gemini-1.5-flash',
     ]
-    
+
     for model in models:
         register(Vertex(f'vertex-{model}'))
 
     # TODO: How to register custom models?
+
 
 class Vertex(llm.Model):
     model_id = ""
@@ -40,23 +40,52 @@ class Vertex(llm.Model):
 
         # TODO: Can we save these with llm keys set or something instead?
         project_id = os.getenv('VERTEX_PROJECT_ID')
-        location = os.getenv('VERTEX_LOCATION')
-        vertexai.init(project=project_id, location=location)
+        location = os.getenv('VERTEX_LOCATION', 'us-central1')
+
+        self.client = genai.Client(
+            vertexai=True,
+            project=project_id,
+            location=location
+        )
 
     def execute(self, prompt, stream, response, conversation):
-        self.model = GenerativeModel(model_name=self.model_name,
-                                     system_instruction=[prompt.system] if prompt.system else None)
-        history = self.build_history(conversation)
-        chat = self.model.start_chat(history=history)
-        responses = chat.send_message(prompt.prompt,
-                                      stream=stream,
-                                      generation_config=self.build_generation_config(prompt.options))
-        if stream:
-            for chunk in responses:
-                yield chunk.text
+        config = self.build_generation_config(prompt.options)
+        if prompt.system:
+            config.system_instruction = prompt.system
+
+        if conversation:
+            # Use chat session for conversations
+            chat = self.client.chats.create(model=self.model_name)
+            # Add conversation history
+            history = self.build_history(conversation)
+            for content in history:
+                if content.get('role') == 'user':
+                    chat.send_message(content.get('text', ''))
+
+            if stream:
+                responses = chat.send_message_stream(prompt.prompt, config=config)
+                for chunk in responses:
+                    yield chunk.text
+            else:
+                response_obj = chat.send_message(prompt.prompt, config=config)
+                yield response_obj.text
         else:
-            msg = responses.text
-            yield msg
+            # Direct content generation
+            if stream:
+                responses = self.client.models.generate_content_stream(
+                    model=self.model_name,
+                    contents=prompt.prompt,
+                    config=config
+                )
+                for chunk in responses:
+                    yield chunk.text
+            else:
+                response_obj = self.client.models.generate_content(
+                    model=self.model_name,
+                    contents=prompt.prompt,
+                    config=config
+                )
+                yield response_obj.text
 
     def build_history(self, conversation):
         if not conversation:
@@ -64,10 +93,13 @@ class Vertex(llm.Model):
         messages = []
         print(f"Build_history conversation: {conversation}")
         for response in conversation.responses:
-            user_content = Content(role="user", parts=[Part.from_text(response.prompt.prompt)])
-            model_content = Content(role="model", parts=[Part.from_text(response.text())])
+            user_content = {"role": "user", "text": response.prompt.prompt}
+            model_content = {"role": "model", "text": response.text()}
             messages.extend([user_content, model_content])
         return messages
 
     def build_generation_config(self, options):
-        return GenerationConfig(**options.model_dump())
+        config_dict = options.model_dump()
+        # Filter out None values
+        config_dict = {k: v for k, v in config_dict.items() if v is not None}
+        return types.GenerateContentConfig(**config_dict)
