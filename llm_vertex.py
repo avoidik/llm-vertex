@@ -9,6 +9,8 @@ from google.genai import types
 def register_models(register):
     # Source: https://cloud.google.com/vertex-ai/generative-ai/docs/learn/models
     models = [
+        'gemini-3-flash-preview',
+        'gemini-3-pro-preview',
         'gemini-2.5-flash',
         'gemini-2.5-pro',
         'gemini-2.0-flash-lite',
